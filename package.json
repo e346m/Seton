@@ -1,0 +1,16 @@
+{
+  "name": "Seton",
+  "version": "0.0.1",
+  "main": "main.js",
+  "author": "Eiji Mishiro",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.0.0",
+    "apollo-client": "^2.0.1",
+    "apollo-link-http": "^1.1.0",
+    "electron": "^1.7.9",
+    "graphql": "^0.11.7",
+    "graphql-tag": "^2.5.0",
+    "react-apollo": "^2.0.0"
+  }
+}
