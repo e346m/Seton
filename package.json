@@ -4,13 +4,21 @@
   "main": "main.js",
   "author": "Eiji Mishiro",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --watch --color --config webpack.config.js"
+  },
   "dependencies": {
     "apollo-cache-inmemory": "^1.0.0",
     "apollo-client": "^2.0.1",
+    "apollo-link-error": "^1.0.0",
     "apollo-link-http": "^1.1.0",
     "electron": "^1.7.9",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
-    "react-apollo": "^2.0.0"
+    "react": "^16.0.0",
+    "react-apollo": "^2.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2",
+    "webpack": "^3.8.1"
   }
 }
