@@ -1,5 +1,5 @@
-const path = require('path')
-const url = require('url')
+import url from 'url'
+import path from 'path'
 import { app, BrowserWindow } from 'electron'
 
 let mainWindow;
@@ -26,7 +26,7 @@ app.on('window-all-closed', function() {
   }
 });
 app.on('activate', function() {
-  if(mainwindow === null) {
+  if(mainWindow === null) {
     createWindow();
   }
 });
