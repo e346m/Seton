@@ -8,6 +8,7 @@ import { setContext } from 'apollo-link-context'
 import { MemoryRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
 import Login from './components/login.jsx'
 import Issues from './components/issues.jsx'
+import Group from './components/group.jsx'
 
 const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
 const authLink = setContext((_, { headers }) => {
@@ -31,8 +32,9 @@ ReactDOM.render(
         <div>
           <MemoryRouter initialEntries={['/login']}>
             <Switch>
-              <Route exact path="/" component={Issues} />
+              <Route exact path="/" component={Group} />
               <Route path="/login" component={Login} />
+              <Route path="/issue" component={Issues} />
               <Route render={() => <p>Not Found</p>} />
             </Switch>
           </MemoryRouter>

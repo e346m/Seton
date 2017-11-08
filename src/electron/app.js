@@ -5,7 +5,7 @@ import { app, BrowserWindow } from 'electron'
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 800, hight: 600});
+  mainWindow = new BrowserWindow({width: 1400, hight: 1400});
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file',
