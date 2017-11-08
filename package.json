@@ -14,19 +14,19 @@
     "apollo-link-context": "^1.0.0",
     "apollo-link-error": "^1.0.0",
     "apollo-link-http": "^1.1.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-react": "^6.24.1",
     "electron": "^1.7.9",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "react": "^16.0.0",
     "react-apollo": "^2.0.0",
     "react-dom": "^16.0.0",
-    "react-router-dom": "^4.2.2",
-    "webpack": "^3.8.1"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "webpack": "^3.8.1"
   }
 }
