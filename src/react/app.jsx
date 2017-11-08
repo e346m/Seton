@@ -4,21 +4,22 @@ import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloProvider } from 'react-apollo'
-import { onError } from "apollo-link-error";
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { setContext } from 'apollo-link-context'
+import { MemoryRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
+import Login from './components/login.jsx'
+import Issues from './components/issues.jsx'
 
-const httpLink = createHttpLink({ uri: '/grapql' })
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path, code }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}, Code: ${code}`,
-      ),
-    )
+const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `bearer ${token}` : null,
+    }
   }
-  if (networkError) { console.log(`[Network error]: ${networkError}`) }
-})
-const link = errorLink.concat(httpLink)
+});
+const link = authLink.concat(httpLink)
 const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
@@ -26,14 +27,17 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <BrowserRouter>
-      <div>
-        <Switch>
-          <Route exact path="/" component={Index} />
-          <Route render={() => <p>Not Found</p>} />
-        </Switch>
-      </div>
-    </BrowserRouter>
+      <BrowserRouter>
+        <div>
+          <MemoryRouter initialEntries={['/login']}>
+            <Switch>
+              <Route exact path="/" component={Issues} />
+              <Route path="/login" component={Login} />
+              <Route render={() => <p>Not Found</p>} />
+            </Switch>
+          </MemoryRouter>
+        </div>
+      </BrowserRouter>
   </ApolloProvider>,
   document.getElementById('main_container')
 )
