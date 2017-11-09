@@ -9,6 +9,7 @@ import { MemoryRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
 import Login from './components/login.jsx'
 import Issues from './components/issues.jsx'
 import Group from './components/group.jsx'
+import CreateGroup from './components/create_group.jsx'
 
 const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
 const authLink = setContext((_, { headers }) => {
@@ -35,6 +36,7 @@ ReactDOM.render(
               <Route exact path="/" component={Group} />
               <Route path="/login" component={Login} />
               <Route path="/issue" component={Issues} />
+              <Route path="/group/create" component={CreateGroup} />
               <Route render={() => <p>Not Found</p>} />
             </Switch>
           </MemoryRouter>
