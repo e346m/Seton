@@ -34,7 +34,8 @@ class Group extends React.Component {
         <Card className={classes.card}>
           <CardContent>
             <Typography type="body1" className={classes.title}>
-              group: {groups[key]}
+              group: {key}
+              repos: {groups[key][0].name}
             </Typography>
           </CardContent>
         </Card>

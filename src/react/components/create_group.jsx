@@ -26,10 +26,22 @@ const styles = theme => ({
 class CreateGroup extends React.Component {
   state = {
     group_label: '',
-    repos: '',
+    repos: [{name: '', label: ''}],
   }
   handleChange = e => {
     this.setState({ group_label: e.target.value })
+  }
+  handleRepoNameChange = (idx) => (e) => {
+    const newRepos = this.state.repos.map((repo, sidx) => {
+      if (idx !== sidx) return repo;
+      return { ...repo, name: e.target.value };
+    });
+    this.setState({ repos: newRepos });
+  }
+  handleAddRepo = () => {
+    this.setState({
+      repos: this.state.repos.concat([{ name: '' }])
+    });
   }
   handleSave = () => {
     const {group_label, repos} = this.state
@@ -45,6 +57,15 @@ class CreateGroup extends React.Component {
           <InputLabel htmlFor="group-label">Group Label</InputLabel>
           <Input id="group-label" value={this.state.group_label} onChange={this.handleChange} />
         </FormControl>
+        <Button className={classes.button} raised dense onClick={this.handleAddRepo}>
+          Add
+        </Button>
+        {this.state.repos.map((repo, idx) =>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="repo">repo</InputLabel>
+            <Input id="repo" value={repo.name} onChange={this.handleRepoNameChange(idx)}/>
+          </FormControl>
+        )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
           <Save className={classes.leftIcon} />
           Save
