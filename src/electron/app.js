@@ -1,6 +1,7 @@
 import url from 'url'
 import path from 'path'
 import { app, BrowserWindow } from 'electron'
+import { client } from 'electron-connect'
 
 let mainWindow;
 
@@ -19,7 +20,9 @@ function createWindow() {
   });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  client.create(createWindow)
+});
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit();

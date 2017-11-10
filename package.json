@@ -29,6 +29,8 @@
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "electron-connect": "^0.6.2",
+    "electron-connect-webpack-plugin": "^0.1.1",
     "webpack": "^3.8.1"
   }
 }

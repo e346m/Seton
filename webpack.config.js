@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+var ElectronConnectWebpackPlugin = require('electron-connect-webpack-plugin');
 module.exports = {
   entry: {
     'main': './src/electron/app.js',
@@ -30,6 +31,10 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
+    new ElectronConnectWebpackPlugin({
+      path:path.join(__dirname, "public/js/main.js"),
+      logLevel: 0
+    }),
     //new webpack.optimize.UglifyJsPlugin({
     //  compress: {
     //    drop_console: true
