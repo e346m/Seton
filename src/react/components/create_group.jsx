@@ -28,6 +28,7 @@ class CreateGroup extends React.Component {
   state = {
     group_label: '',
     repos: [{name: '', label: ''}],
+    labels: [],
   }
   handleChange = e => {
     this.setState({ group_label: e.target.value })
@@ -56,7 +57,11 @@ class CreateGroup extends React.Component {
       query: LabelQuery,
       variables: { owner, repository },
     }).then((data) => {
-      console.log(data)
+      let labels = []
+      data.data.repository.labels.edges.map(o => {
+        labels.push(o.node.name)
+      })
+      this.setState({ labels })
     })
   }
   render() {
