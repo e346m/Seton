@@ -5,6 +5,8 @@ import Input, { InputLabel } from 'material-ui/Input'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Button from 'material-ui/Button'
 import Save from 'material-ui-icons/Save';
+import { withApollo } from 'react-apollo'
+import gql from 'graphql-tag'
 
 const styles = theme => ({
   button: {
@@ -22,7 +24,6 @@ const styles = theme => ({
   },
 })
 
-// data struct will be handled with graphql query and its object
 class CreateGroup extends React.Component {
   state = {
     group_label: '',
@@ -49,6 +50,15 @@ class CreateGroup extends React.Component {
     localStorage.setItem('groups', JSON.stringify(groups))
     this.props.history.replace('/groups')
   }
+  handleGetLabel = (e) => {
+    const [owner, repository] = e.target.value.split('/')
+    this.props.client.query({
+      query: LabelQuery,
+      variables: { owner, repository },
+    }).then((data) => {
+      console.log(data)
+    })
+  }
   render() {
     const {classes} = this.props
     return (
@@ -63,7 +73,7 @@ class CreateGroup extends React.Component {
         {this.state.repos.map((repo, idx) =>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="repo">repo</InputLabel>
-            <Input id="repo" value={repo.name} onChange={this.handleRepoNameChange(idx)}/>
+            <Input id="repo" placeholder="owner/repository" value={repo.name} onChange={this.handleRepoNameChange(idx)} onBlur={this.handleGetLabel}/>
           </FormControl>
         )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
@@ -74,4 +84,18 @@ class CreateGroup extends React.Component {
     )
   }
 }
-export default withStyles(styles)(CreateGroup)
+
+const LabelQuery = gql`
+  query LabelQuery($owner: String!, $repository: String!){
+    repository(owner: $owner, name: $repository) {
+      labels(first: 100) {
+        edges {
+          node {
+            name
+          }
+        }
+      }
+    }
+  }
+`
+export default withStyles(styles)(withApollo(CreateGroup))
