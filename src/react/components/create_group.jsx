@@ -4,9 +4,10 @@ import { withStyles } from 'material-ui/styles'
 import Input, { InputLabel } from 'material-ui/Input'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import Button from 'material-ui/Button'
-import Save from 'material-ui-icons/Save';
+import Save from 'material-ui-icons/Save'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
+import Label from './label.jsx'
 
 const styles = theme => ({
   button: {
@@ -22,8 +23,12 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
   },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 })
 
+// TODO delegate method for repos: {label:  }
 class CreateGroup extends React.Component {
   state = {
     group_label: '',
@@ -37,6 +42,13 @@ class CreateGroup extends React.Component {
     const newRepos = this.state.repos.map((repo, sidx) => {
       if (idx !== sidx) return repo;
       return { ...repo, name: e.target.value };
+    });
+    this.setState({ repos: newRepos });
+  }
+  handleRepoLabelChange = (idx) => (e) => {
+    const newRepos = this.state.repos.map((repo, sidx) => {
+      if (idx !== sidx) return repo;
+      return { ...repo, label: e.target.value }
     });
     this.setState({ repos: newRepos });
   }
@@ -70,15 +82,22 @@ class CreateGroup extends React.Component {
       <div className={classes.container}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="group-label">Group Label</InputLabel>
-          <Input id="group-label" value={this.state.group_label} onChange={this.handleChange} />
+          <Input id="group-label" value={this.state.group_label}
+            onChange={this.handleChange}
+          />
         </FormControl>
-        <Button className={classes.button} raised dense onClick={this.handleAddRepo}>
+        <Button className={classes.button} raised dense
+          onClick={this.handleAddRepo}>
           Add
         </Button>
         {this.state.repos.map((repo, idx) =>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="repo">repo</InputLabel>
-            <Input id="repo" placeholder="owner/repository" value={repo.name} onChange={this.handleRepoNameChange(idx)} onBlur={this.handleGetLabel}/>
+            <Input id="repo" placeholder="owner/repository" value={repo.name}
+              onChange={this.handleRepoNameChange(idx)}
+              onBlur={this.handleGetLabel}
+            />
+            <Label idx={idx} labels={this.state.labels}/>
           </FormControl>
         )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
