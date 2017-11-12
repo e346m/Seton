@@ -28,7 +28,6 @@ const styles = theme => ({
   },
 })
 
-// TODO delegate method for repos: {label:  }
 class CreateGroup extends React.Component {
   state = {
     group_label: '',
@@ -37,6 +36,11 @@ class CreateGroup extends React.Component {
   }
   handleChange = e => {
     this.setState({ group_label: e.target.value })
+  }
+  handleAddRepo = () => {
+    this.setState({
+      repos: this.state.repos.concat([{ name: '' }])
+    });
   }
   handleRepoNameChange = (idx) => (e) => {
     const newRepos = this.state.repos.map((repo, sidx) => {
@@ -52,18 +56,7 @@ class CreateGroup extends React.Component {
     });
     this.setState({ repos: newRepos });
   }
-  handleAddRepo = () => {
-    this.setState({
-      repos: this.state.repos.concat([{ name: '' }])
-    });
-  }
-  handleSave = () => {
-    const {group_label, repos} = this.state
-    const groups = { [group_label]: repos }
-    localStorage.setItem('groups', JSON.stringify(groups))
-    this.props.history.replace('/groups')
-  }
-  handleGetLabel = (e) => {
+  handleGetLabel = (idx) => (e) => {
     const [owner, repository] = e.target.value.split('/')
     this.props.client.query({
       query: LabelQuery,
@@ -73,8 +66,16 @@ class CreateGroup extends React.Component {
       data.data.repository.labels.edges.map(o => {
         labels.push(o.node.name)
       })
-      this.setState({ labels })
+      this.setState(
+        labels: this.state.labels.concat([{ [idx]: labels }])
+      )
     })
+  }
+  handleSave = () => {
+    const {group_label, repos} = this.state
+    const groups = { [group_label]: repos }
+    localStorage.setItem('groups', JSON.stringify(groups))
+    this.props.history.replace('/groups')
   }
   render() {
     const {classes} = this.props
@@ -92,12 +93,12 @@ class CreateGroup extends React.Component {
         </Button>
         {this.state.repos.map((repo, idx) =>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="repo">repo</InputLabel>
-            <Input id="repo" placeholder="owner/repository" value={repo.name}
+            <InputLabel htmlFor={idx}>repo</InputLabel>
+            <Input id={idx} placeholder="owner/repository" value={repo.name}
               onChange={this.handleRepoNameChange(idx)}
-              onBlur={this.handleGetLabel}
+              onBlur={this.handleGetLabel(idx)}
             />
-            <Label idx={idx} labels={this.state.labels}/>
+            <Label key={idx} labels={this.state.labels.idx} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
           </FormControl>
         )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
