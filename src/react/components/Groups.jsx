@@ -7,7 +7,6 @@ import AddIcon from 'material-ui-icons/Add'
 import Grid from 'material-ui/Grid'
 import Card, { CardActions, CardContent } from 'material-ui/Card'
 
-// TODO add style for add icon
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -37,13 +36,16 @@ class Groups extends React.Component {
         <Card className={classes.card}>
           <CardContent>
             <Typography type="body1" className={classes.title}>
-              group: {key}
+              group: { key }
             </Typography>
             <Typography type="body1" className={classes.title}>
-              repos: {groups[key][0].name}
+              repos: { groups[key][0].name }
             </Typography>
             <Button className={classes.button}>
-              <Link to="/issues">
+              <Link to={{
+                pathname: "/issues",
+                state: { group: groups[key][0] }
+              }}>
                 issue
               </Link>
             </Button>
