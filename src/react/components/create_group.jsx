@@ -32,7 +32,7 @@ class CreateGroup extends React.Component {
   state = {
     group_label: '',
     repos: [{name: '', label: ''}],
-    labels: [],
+    labels: {},
   }
   handleChange = e => {
     this.setState({ group_label: e.target.value })
@@ -66,9 +66,9 @@ class CreateGroup extends React.Component {
       data.data.repository.labels.edges.map(o => {
         labels.push(o.node.name)
       })
-      this.setState(
-        labels: this.state.labels.concat([{ [idx]: labels }])
-      )
+      this.setState({
+        labels: Object.assign(this.state.labels, { [idx]: labels })
+      })
     })
   }
   handleSave = () => {
@@ -98,7 +98,7 @@ class CreateGroup extends React.Component {
               onChange={this.handleRepoNameChange(idx)}
               onBlur={this.handleGetLabel(idx)}
             />
-            <Label key={idx} labels={this.state.labels.idx} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
+            <Label key={idx} labels={this.state.labels[idx] || []} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
           </FormControl>
         )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
