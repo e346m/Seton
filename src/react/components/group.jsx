@@ -21,6 +21,9 @@ const styles = theme => ({
     fontSize: 14,
     color: theme.palette.text.secondary,
   },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class Group extends React.Component {
@@ -39,6 +42,11 @@ class Group extends React.Component {
             <Typography type="body1" className={classes.title}>
               repos: {groups[key][0].name}
             </Typography>
+            <Button className={classes.button}>
+              <Link to="/issue">
+                issue
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       )
