@@ -3,7 +3,7 @@ import { MenuItem } from 'material-ui/Menu'
 import Select from 'material-ui/Select'
 import Input from 'material-ui/Input'
 
-export default class Label extends React.Component {
+export default class RepoLabelForm extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.labels !== nextProps.labels) return true
     if (this.props.label !== nextProps.label) return true

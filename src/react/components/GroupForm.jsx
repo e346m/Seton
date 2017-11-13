@@ -7,7 +7,7 @@ import Button from 'material-ui/Button'
 import Save from 'material-ui-icons/Save'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
-import Label from './label.jsx'
+import RepoLabelForm from './RepoLabelForm.jsx'
 
 const styles = theme => ({
   button: {
@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 })
 
-class CreateGroup extends React.Component {
+class GroupForm extends React.Component {
   state = {
     group_label: '',
     repos: [{name: '', label: ''}],
@@ -77,7 +77,7 @@ class CreateGroup extends React.Component {
     let newGroups = { [group_label]: repos }
     newGroups = Object.assign(groups, newGroups)
     localStorage.setItem('groups', JSON.stringify(newGroups))
-    this.props.history.replace('/groups')
+    this.props.history.replace('/')
   }
   render() {
     const {classes} = this.props
@@ -100,7 +100,7 @@ class CreateGroup extends React.Component {
               onChange={this.handleRepoNameChange(idx)}
               onBlur={this.handleGetLabel(idx)}
             />
-            <Label key={idx} labels={this.state.labels[idx] || []} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
+            <RepoLabelForm key={idx} labels={this.state.labels[idx] || []} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
           </FormControl>
         )}
         <Button className={classes.button} raised dense onClick={this.handleSave}>
@@ -125,4 +125,4 @@ const LabelQuery = gql`
     }
   }
 `
-export default withStyles(styles)(withApollo(CreateGroup))
+export default withStyles(styles)(withApollo(GroupForm))

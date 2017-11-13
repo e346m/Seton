@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 });
 
-class NavBar extends React.Component {
+class Nav extends React.Component {
   render() {
     const { classes } = this.props;
     return (
@@ -38,7 +38,7 @@ class NavBar extends React.Component {
                 Group
             </Typography>
             <Typography type="title" color="inherit" className={classes.flex}
-              component={NavLink} to='/issue'>
+              component={NavLink} to='/issues'>
                 Issues
             </Typography>
             <Button color="contrast">Setting</Button>
@@ -49,8 +49,8 @@ class NavBar extends React.Component {
   }
 }
 
-NavBar.propTypes = {
+Nav.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NavBar);
+export default withStyles(styles)(Nav);

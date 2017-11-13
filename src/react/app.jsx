@@ -6,11 +6,12 @@ import { createHttpLink } from 'apollo-link-http'
 import { ApolloProvider } from 'react-apollo'
 import { setContext } from 'apollo-link-context'
 import { MemoryRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
-import Login from './components/login.jsx'
-import Issues from './components/issues.jsx'
-import Group from './components/group.jsx'
-import CreateGroup from './components/create_group.jsx'
-import Nav from './components/nav.jsx'
+
+import Login from './components/Login.jsx'
+import Issues from './components/Issues.jsx'
+import Groups from './components/Groups.jsx'
+import GroupForm from './components/GroupForm.jsx'
+import Nav from './components/Nav.jsx'
 
 const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
 const authLink = setContext((_, { headers }) => {
@@ -33,14 +34,13 @@ ReactDOM.render(
       <BrowserRouter>
         <div>
           <MemoryRouter initialEntries={['/login']}>
-
             <div>
               <Nav />
               <Switch>
-                <Route exact path="/" component={Group} />
+                <Route exact path="/" component={Groups} />
                 <Route path="/login" component={Login} />
-                <Route path="/issue" component={Issues} />
-                <Route path="/group/create" component={CreateGroup} />
+                <Route path="/issues" component={Issues} />
+                <Route path="/group/new" component={GroupForm} />
                 <Route render={() => <p>Not Found</p>} />
               </Switch>
             </div>

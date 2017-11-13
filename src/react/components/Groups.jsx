@@ -26,7 +26,7 @@ const styles = theme => ({
   },
 });
 
-class Group extends React.Component {
+class Groups extends React.Component {
   render() {
     let gs = [];
     const { classes } = this.props
@@ -43,7 +43,7 @@ class Group extends React.Component {
               repos: {groups[key][0].name}
             </Typography>
             <Button className={classes.button}>
-              <Link to="/issue">
+              <Link to="/issues">
                 issue
               </Link>
             </Button>
@@ -54,7 +54,7 @@ class Group extends React.Component {
     return (
       <div className={classes.root}>
         {gs}
-        <Link to="/group/create">
+        <Link to="/group/new">
           <Button fab color="primary" aria-label ="add">
             <AddIcon />
           </Button>
@@ -63,4 +63,4 @@ class Group extends React.Component {
     )
   }
 }
-export default withStyles(styles)(Group)
+export default withStyles(styles)(Groups)
