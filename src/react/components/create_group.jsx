@@ -73,8 +73,10 @@ class CreateGroup extends React.Component {
   }
   handleSave = () => {
     const {group_label, repos} = this.state
-    const groups = { [group_label]: repos }
-    localStorage.setItem('groups', JSON.stringify(groups))
+    const groups = JSON.parse(localStorage.getItem('groups')) || {}
+    let newGroups = { [group_label]: repos }
+    newGroups = Object.assign(groups, newGroups)
+    localStorage.setItem('groups', JSON.stringify(newGroups))
     this.props.history.replace('/groups')
   }
   render() {
