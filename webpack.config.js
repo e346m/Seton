@@ -30,7 +30,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    //new webpack.optimize.ModuleConcatenationPlugin(),
     new ElectronConnectWebpackPlugin({
       path:path.join(__dirname, "public/js/main.js"),
       logLevel: 0
