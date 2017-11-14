@@ -38,13 +38,15 @@ class Groups extends React.Component {
             <Typography type="body1" className={classes.title}>
               group: { key }
             </Typography>
-            <Typography type="body1" className={classes.title}>
-              repos: { groups[key][0].name }
-            </Typography>
+            { groups[key].map(repo =>
+              <Typography type="body1" className={classes.title}>
+                repo: { repo.name }
+              </Typography>
+            )}
             <Button className={classes.button}>
               <Link to={{
                 pathname: "/issues",
-                state: { group: groups[key][0] }
+                state: { repos: groups[key] }
               }}>
                 issue
               </Link>

@@ -2,65 +2,56 @@ import React from 'react'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withStyles } from 'material-ui/styles'
-import ListSubheader from 'material-ui/List/ListSubheader'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import List, { ListItem,  ListItemText } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    background: theme.palette.background.paper,
-  },
   nested: {
     paddingLeft: theme.spacing.unit * 4,
   },
 });
 
 class IssueList extends React.PureComponent {
-  state = { open: true }
+  state = { open: false }
   handleClick = () => {
     this.setState({ open: !this.state.open });
   }
   render() {
-    const { classes } = this.props
-    if (this.props.loading) {
-      return(<div>loading</div>)
+    const { classes, owner, repository } = this.props
+    if (this.props.data.loading) {
+      return(<div>{ console.log("loading") }</div>)
     }
-    if (this.props.error) {
-      return(<div>error</div>)
+    if (this.props.data.error) {
+      return(<div>{ console.log(this.props.data.error) }</div>)
     }
     return (
-      <List className={classes.root} subheader={<ListSubheader>Nested List Items</ListSubheader>}>
+      <div>
         <ListItem button onClick={this.handleClick}>
-          <ListItemText inset primary="Inbox" />
+          <ListItemText inset primary={owner + '/' + repository} />
           {this.state.open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
-          <ListItem button className={classes.nested}>
-            <ListItemText inset primary="Starred" />
-            {console.log(this.props)}
-          </ListItem>
+          {this.props.data.repository.issues.edges.map(issue =>
+            <ListItem button className={classes.nested}>
+              <ListItemText inset secondary={'#' + issue.node.number} primary={issue.node.title} />
+            </ListItem>
+          )}
         </Collapse>
-      </List>
+      </div>
     )
   }
 }
 
 const IssueQuery = gql`
-  query IssueQuery($owner: String!, $repository: String!){
+  query IssueQuery($owner: String!, $repository: String!, $labels: [String!]){
     repository(owner: $owner, name: $repository) {
-      url
-      name
-      viewerSubscription
-      issues(first: 10, states: OPEN) {
+      issues(last: 10, states: OPEN, labels: $labels) {
         edges {
           node {
             title
             number
-            bodyText
           }
         }
       }
@@ -70,7 +61,7 @@ const IssueQuery = gql`
 
 const IssueListWithQuery = graphql(IssueQuery, {
   options: ownProps => ({
-    variables: { owner: ownProps.owner, repository: ownProps.repository }
+    variables: { owner: ownProps.owner, repository: ownProps.repository, labels: ownProps.labels }
   }),
 })(withStyles(styles)(IssueList))
 export default IssueListWithQuery
