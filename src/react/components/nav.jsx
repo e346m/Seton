@@ -37,10 +37,6 @@ class Nav extends React.Component {
               component={NavLink} to='/'>
                 Group
             </Typography>
-            <Typography type="title" color="inherit" className={classes.flex}
-              component={NavLink} to='/issues'>
-                Issues
-            </Typography>
             <Button color="contrast">Setting</Button>
           </Toolbar>
         </AppBar>
