@@ -19,13 +19,15 @@ import Dialog, {
 
 const styles = theme => ({
   card: {
-    width: 300,
-    hight: 300,
+    minwidth: 300,
     marginTop: 16,
+    display: 'flex',
+    flexDirection: 'column',
   },
   content: {
     display: 'flex',
     justifyContent: 'space-around',
+    paddingBottom: 0,
   },
   button: {
     margin: theme.spacing.unit,
@@ -94,16 +96,16 @@ class GroupItem extends React.Component {
             >
               <ExpandMoreIcon />
             </IconButton>
-            <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
-              <ul>
-                { repos.map(repo =>
-                  <Typography type="body2" className={classes.body}>
-                    <li>{ repo.name } \\ { repo.label }</li>
-                  </Typography>
-                )}
-              </ul>
-            </Collapse>
           </CardContent>
+          <Collapse in={this.state.expanded} transitionDuration="auto" unmountOnExit>
+            <ul>
+              { repos.map(repo =>
+                <Typography type="body2" className={classes.body}>
+                  <li>{ repo.name } \\ { repo.label }</li>
+                </Typography>
+              )}
+            </ul>
+          </Collapse>
         </Card>
       </Grid>
     )
