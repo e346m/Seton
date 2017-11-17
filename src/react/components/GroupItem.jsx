@@ -9,7 +9,13 @@ import Card, { CardActions, CardContent } from 'material-ui/Card'
 import Grid from 'material-ui/Grid'
 import Collapse from 'material-ui/transitions/Collapse'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
-import classnames from 'classnames';
+import classnames from 'classnames'
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog'
 
 const styles = theme => ({
   card: {
@@ -17,11 +23,16 @@ const styles = theme => ({
     hight: 300,
     marginTop: 16,
   },
+  content: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
   button: {
     margin: theme.spacing.unit,
     textTransform: 'none',
   },
   expand: {
+    margin: theme.spacing.unit,
     transform: 'rotate(0deg)',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
@@ -33,24 +44,48 @@ const styles = theme => ({
 });
 
 class GroupItem extends React.Component {
-  state = { expanded: false };
+  state = {
+    expanded: false,
+    open: false,
+  };
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
+  handleRequestClose = () => {
+    this.setState({ open: false });
+  };
   handleExpandClick = () => {
     this.setState({ expanded: !this.state.expanded });
   };
+
+  _handleDelete = (groupName) => () => {
+    this.props.onDelete(groupName)
+    this.handleRequestClose()
+  }
   render() {
-    const { repos, classes } = this.props
+    const { repos, classes, groupName } = this.props
     return(
       <Grid item>
         <Card className={classes.card}>
-          <CardContent>
-            <Typography type="body1">
-              <Button className={classes.button}>
-                <Link to={{ pathname: "/issues", state: { repos: repos } }}>
-                  {this.props.groupName}
-                </Link>
-              </Button>
-            </Typography>
+          <CardContent className={classes.content}>
+            <Button className={classes.button}>
+              <Link to={{ pathname: "/issues", state: { repos: repos } }}>
+                {groupName}
+              </Link>
+            </Button>
+            <Button onClick={this.handleClickOpen}>Delete</Button>
+            <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+              <DialogTitle>{"Do you really want to delete it?"}</DialogTitle>
+              <DialogActions>
+                <Button onClick={this.handleRequestClose} color="primary" autoFocus>
+                  Cancel
+                </Button>
+                <Button onClick={this._handleDelete(groupName)} color="accent">
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
             <IconButton onClick={this.handleExpandClick} aria-label="Show more"
               aria-expanded={this.state.expanded}
               className={classnames(classes.expand, {

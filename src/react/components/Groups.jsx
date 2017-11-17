@@ -32,15 +32,29 @@ const styles = theme => ({
 });
 
 class Groups extends React.Component {
+  state = {
+    groups: '',
+  }
+  componentDidMount() {
+    this.setState({ groups: this.handleGetObject() })
+  }
+  handleGetObject = () => {
+    return JSON.parse(localStorage.getItem('groups')) || {}
+  }
+  handleDeleteObject = (groups) => (key) => {
+    delete groups[key]
+    localStorage.setItem('groups', JSON.stringify(groups))
+    this.setState({ groups: groups })
+  }
   render() {
     const { classes } = this.props
-    const groups = JSON.parse(localStorage.getItem('groups')) || {}
+    const { groups } = this.state
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>
           <Grid container justify="flex-start" spacing={16}>
             { Object.keys(groups).map((item, index) =>
-              <GroupItem key={index} groupName={item} repos={groups[item]} />
+              <GroupItem key={index} groupName={item} repos={groups[item]} onDelete={this.handleDeleteObject(groups)}/>
             )}
           </Grid>
         </Grid>
