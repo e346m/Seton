@@ -6,6 +6,9 @@ import List, { ListItem,  ListItemText } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
+import Badge from 'material-ui/Badge';
+import ArchiveIcon from 'material-ui-icons/Archive';
+import { displayTime } from '../utility.js'
 
 const styles = theme => ({
   nested: {
@@ -30,12 +33,16 @@ class IssueList extends React.PureComponent {
       <div>
         <ListItem button onClick={this.handleClick}>
           <ListItemText inset primary={owner + '/' + repository} />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          <Badge className={classes.badge} badgeContent={this.props.data.repository.issues.edges.length} color="primary">
+            <ArchiveIcon />
+          </Badge>
         </ListItem>
         <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
-          {this.props.data.repository.issues.edges.map(issue =>
+          {this.props.data.repository.issues.edges.slice().reverse().map(issue =>
             <ListItem button className={classes.nested}>
-              <ListItemText inset secondary={'#' + issue.node.number} primary={issue.node.title} />
+              <ListItemText inset primary={issue.node.title}
+                secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
+              />
             </ListItem>
           )}
         </Collapse>
@@ -52,6 +59,7 @@ const IssueQuery = gql`
           node {
             title
             number
+            createdAt
           }
         }
       }
