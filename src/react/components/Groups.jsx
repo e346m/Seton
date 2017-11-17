@@ -29,6 +29,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
+    textTransform: 'none',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -38,6 +39,17 @@ const styles = theme => ({
   },
   expandOpen: {
     transform: 'rotate(180deg)',
+  },
+  footer: {
+    position: 'fixed',
+    right: 0,
+    bottom: 0,
+    left: 0,
+    padding: '2rem',
+    zIndex: -1,
+  },
+  add: {
+    zIndex: 3,
   },
 });
 
@@ -56,7 +68,7 @@ class Groups extends React.Component {
         <Grid item>
           <Card className={classes.card}>
             <CardContent>
-              <Typography type="button">
+              <Typography type="body1">
                 <Button className={classes.button}>
                   <Link to={{
                     pathname: "/issues",
@@ -97,9 +109,9 @@ class Groups extends React.Component {
             {gs}
           </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid container justify="flex-end" alignments="flex-end" className={classes.footer}>
           <Link to="/group/new">
-            <Button fab color="primary" aria-label ="add">
+            <Button fab color="primary" aria-label ="add" className={classes.add}>
               <AddIcon />
             </Button>
           </Link>
