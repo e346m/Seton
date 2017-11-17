@@ -16,6 +16,11 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
+  flexCol: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+  },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -33,6 +38,7 @@ class GroupForm extends React.Component {
     group_label: '',
     repos: [{name: '', label: ''}],
     labels: {},
+    unclickable: false,
   }
   handleChange = e => {
     this.setState({ group_label: e.target.value })
@@ -41,6 +47,10 @@ class GroupForm extends React.Component {
     this.setState({
       repos: this.state.repos.concat([{ name: '' }])
     });
+  }
+  handleDelRepo = (idx) => () => {
+    this.state.repos.splice(idx, 1);
+    this.setState({ repos: this.state.repos })
   }
   handleRepoNameChange = (idx) => (e) => {
     const newRepos = this.state.repos.map((repo, sidx) => {
@@ -82,32 +92,46 @@ class GroupForm extends React.Component {
   render() {
     const {classes} = this.props
     return (
-      <div className={classes.container}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="group-label">Group Label</InputLabel>
-          <Input id="group-label" value={this.state.group_label}
-            onChange={this.handleChange}
-          />
-        </FormControl>
-        <Button className={classes.button} raised dense
-          onClick={this.handleAddRepo}>
-          Add
-        </Button>
-        {this.state.repos.map((repo, idx) =>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor={idx}>repo</InputLabel>
-            <Input id={idx} placeholder="owner/repository" value={repo.name}
-              onChange={this.handleRepoNameChange(idx)}
-              onBlur={this.handleGetLabel(idx)}
+      <div className={classes.flexCol}>
+        <div className={classes.container}>
+          <FormControl required className={classes.formControl}>
+            <InputLabel htmlFor="group-label">Group Label</InputLabel>
+            <Input id="group-label" value={this.state.group_label}
+              onChange={this.handleChange}
             />
-            <RepoLabelForm key={idx} labels={this.state.labels[idx] || []} handleRepoLabelChange={this.handleRepoLabelChange(idx)} label={repo.label || ''}/>
           </FormControl>
-        )}
-        <Button className={classes.button} raised dense onClick={this.handleSave}>
-          <Save className={classes.leftIcon} />
-          Save
-        </Button>
+          <Button className={classes.button} raised dense
+            onClick={this.handleAddRepo}>
+            Add
+          </Button>
+          <Button className={classes.button} raised dense onClick={this.handleSave}
+            disabled={this.state.unclickable}
+          >
+            <Save className={classes.leftIcon} />
+            Save
+          </Button>
+        </div>
+        <div className={classes.container}>
+          {this.state.repos.map((repo, idx) =>
+            <div>
+              <FormControl required className={classes.formControl}>
+                <InputLabel htmlFor={idx}>repo</InputLabel>
+                <Input id={idx} placeholder="owner/repository" value={repo.name}
+                  onChange={this.handleRepoNameChange(idx)}
+                  onBlur={this.handleGetLabel(idx)}
+                />
+                <RepoLabelForm key={idx} labels={this.state.labels[idx] || []}
+                  handleRepoLabelChange={this.handleRepoLabelChange(idx)}
+                  label={repo.label || ''}
+                />
+              </FormControl>
+              <Button className={classes.button} raised dense onClick={this.handleDelRepo(idx)}>
+                Delete
+              </Button>
+            </div>
+          )}
       </div>
+    </div>
     )
   }
 }
