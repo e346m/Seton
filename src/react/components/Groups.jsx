@@ -27,6 +27,9 @@ const styles = theme => ({
     textAlign: 'flex-start',
     color: theme.palette.text.secondary,
   },
+  items: {
+    zIndex: 1,
+  },
   button: {
     margin: theme.spacing.unit,
     textTransform: 'none',
@@ -46,10 +49,9 @@ const styles = theme => ({
     bottom: 0,
     left: 0,
     padding: '2rem',
-    zIndex: -1,
   },
   add: {
-    zIndex: 3,
+    zIndex: 2,
   },
 });
 
@@ -105,7 +107,7 @@ class Groups extends React.Component {
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>
-          <Grid container justify="flex-start" spacing={16}>
+          <Grid container justify="flex-start" spacing={16} className={classes.items}>
             {gs}
           </Grid>
         </Grid>
