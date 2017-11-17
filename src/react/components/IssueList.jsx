@@ -1,13 +1,14 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Link } from 'react-router-dom'
 import { withStyles } from 'material-ui/styles'
 import List, { ListItem,  ListItemText } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
 import Badge from 'material-ui/Badge';
-import ArchiveIcon from 'material-ui-icons/Archive';
+import ArchiveIcon from 'material-ui-icons/Archive'
 import { displayTime } from '../utility.js'
 
 const styles = theme => ({
@@ -39,11 +40,13 @@ class IssueList extends React.PureComponent {
         </ListItem>
         <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
           {this.props.data.repository.issues.edges.slice().reverse().map(issue =>
-            <ListItem button className={classes.nested}>
-              <ListItemText inset primary={issue.node.title}
-                secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
-              />
-            </ListItem>
+            <Link to={`/issues/${issue.node.id}`} >
+              <ListItem button className={classes.nested}>
+                <ListItemText inset primary={issue.node.title}
+                  secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
+                />
+              </ListItem>
+            </Link>
           )}
         </Collapse>
       </div>
@@ -57,6 +60,7 @@ const IssueQuery = gql`
       issues(last: 10, states: OPEN, labels: $labels) {
         edges {
           node {
+            id
             title
             number
             createdAt

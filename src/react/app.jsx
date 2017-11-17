@@ -12,6 +12,7 @@ import Issues from './components/Issues.jsx'
 import Groups from './components/Groups.jsx'
 import GroupForm from './components/GroupForm.jsx'
 import Nav from './components/Nav.jsx'
+import Issue from './components/Issue.jsx'
 
 const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
 const authLink = setContext((_, { headers }) => {
@@ -39,7 +40,8 @@ ReactDOM.render(
               <Switch>
                 <Route exact path="/" component={Groups} />
                 <Route path="/login" component={Login} />
-                <Route path="/issues" component={Issues} />
+                <Route exact path="/issues" component={Issues} />
+                <Route path="/issues/:id" component={Issue} />
                 <Route path="/group/new" component={GroupForm} />
                 <Route render={() => <p>Not Found</p>} />
               </Switch>
