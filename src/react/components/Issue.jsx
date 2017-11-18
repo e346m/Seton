@@ -3,8 +3,22 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withStyles } from 'material-ui/styles'
 import Avatar from 'material-ui/Avatar';
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card'
+import Typography from 'material-ui/Typography'
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  card: {
+    width: 900,
+    margin: 15,
+  },
+  cardHeader: {
+    paddingBottom: 0,
+  },
   avatar: {
     margin: 10,
   },
@@ -23,15 +37,34 @@ class Issue extends React.Component {
       return(<div>{console.log("loading")}</div>)
     }
     return (
-      <div>
-        <Avatar alt={node.author.login} src={node.author.avatarUrl} className={classes.bigAvatar} />
-        <div>{node.title}</div>
-        <div dangerouslySetInnerHTML={ {__html: node.bodyHTML} } />
+      <div className={classes.container}>
+        <Card className={classes.card}>
+          <CardHeader
+            avatar={
+              <Avatar alt={node.author.login}
+                src={node.author.avatarUrl} className={classes.bigAvatar}
+              /> }
+            title={node.title}
+            subheader={`commented by ${node.author.login}`}
+            className={classes.cardHeader}
+          />
+          <CardContent>
+            <Typography component='p' dangerouslySetInnerHTML={ {__html: node.bodyHTML} } />
+          </CardContent>
+        </Card>
         { node.comments.edges.map(comment =>
-          <div>
-            <Avatar alt={comment.node.author.login} src={comment.node.author.avatarUrl} className={classes.avatar} />
-            <div dangerouslySetInnerHTML={ {__html: comment.node.bodyHTML} } />
-          </div>
+          <Card className={classes.card}>
+            <CardHeader
+              avatar={
+                <Avatar alt={comment.node.author.login} src={comment.node.author.avatarUrl} className={classes.avatar} />
+              }
+              subheader={`commented by ${comment.node.author.login}`}
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography component='p' dangerouslySetInnerHTML={ {__html: comment.node.bodyHTML} } />
+            </CardContent>
+          </Card>
         )}
       </div>
     )
