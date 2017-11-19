@@ -8,6 +8,7 @@ import { setContext } from 'apollo-link-context'
 import { MemoryRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Login from './components/Login.jsx'
+import Token from './components/Token.jsx'
 import Issues from './components/Issues.jsx'
 import Groups from './components/Groups.jsx'
 import GroupForm from './components/GroupForm.jsx'
@@ -40,6 +41,7 @@ ReactDOM.render(
               <Switch>
                 <Route exact path="/" component={Groups} />
                 <Route path="/login" component={Login} />
+                <Route path="/token" component={Token} />
                 <Route exact path="/issues" component={Issues} />
                 <Route path="/issues/:id" component={Issue} />
                 <Route path="/group/new" component={GroupForm} />

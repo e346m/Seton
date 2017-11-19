@@ -71,11 +71,11 @@ class GroupItem extends React.Component {
       <Grid item>
         <Card className={classes.card}>
           <CardContent className={classes.content}>
-            <Button className={classes.button}>
-              <Link to={{ pathname: "/issues", state: { repos: repos } }}>
+            <Link to={{ pathname: "/issues", state: { repos: repos } }}>
+              <Button className={classes.button}>
                 {groupName}
-              </Link>
-            </Button>
+              </Button>
+            </Link>
             <Button onClick={this.handleClickOpen}>Delete</Button>
             <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
               <DialogTitle>{"Do you really want to delete it?"}</DialogTitle>

@@ -5,9 +5,9 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import SettingsIcon from 'material-ui-icons/Settings'
 
 const styles = theme => ({
   root: {
@@ -37,7 +37,9 @@ class Nav extends React.Component {
               component={NavLink} to='/'>
                 Group
             </Typography>
-            <Button color="contrast">Setting</Button>
+            <IconButton className={classes.menuButton} color="contrast" aria-label="Settings" component={NavLink} to='/token'>
+              <SettingsIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
