@@ -6,23 +6,31 @@ import { client } from 'electron-connect'
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 1400, hight: 1400});
+  mainWindow = new BrowserWindow();
+	mainWindow.maximize();
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol: 'file',
     slashes: true
   }));
 
-  mainWindow.webContents.openDevTools();
+  if (process.env.NODE_ENV !== 'production') {
+    mainWindow.webContents.openDevTools();
+    console.log('Looks like we are in development mode!');
+  }
 
   mainWindow.on('close', function() {
     mainWindow = null;
   });
 }
 
-app.on('ready', () => {
-  client.create(createWindow)
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.on('ready', () => {
+    client.create(createWindow)
+  });
+}else {
+  app.on('ready', createWindow);
+}
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit();

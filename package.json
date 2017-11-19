@@ -5,8 +5,9 @@
   "author": "Eiji Mishiro",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --watch --color --config webpack.config.js",
-    "start": "electron ./public/js/main.js"
+    "electron": "electron ./public/js/main.js",
+    "start": "webpack --watch --color --config webpack.dev.js",
+    "build": "webpack -p --display-error-details --color --config webpack.prod.js --progress"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.0.0",
@@ -27,10 +28,14 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "electron-connect": "^0.6.2",
     "electron-connect-webpack-plugin": "^0.1.1",
-    "webpack": "^3.8.1"
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack": "^3.8.1",
+    "webpack-merge": "^4.1.1"
   }
 }
