@@ -28,7 +28,7 @@ I picked up some repositories with easy labeled issue like `good first issue`, `
 
 ## TODO
 
-- [] debug some behavior for packaging
+- [ ] debug some behavior for packaging
 
 ## License
 
