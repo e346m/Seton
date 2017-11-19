@@ -30,7 +30,8 @@ const styles = theme => ({
     paddingBottom: 0,
   },
   button: {
-    margin: theme.spacing.unit,
+    height: '100%',
+    margin: 0,
     textTransform: 'none',
   },
   expand: {
@@ -72,9 +73,7 @@ class GroupItem extends React.Component {
         <Card className={classes.card}>
           <CardContent className={classes.content}>
             <Link to={{ pathname: "/issues", state: { repos: repos } }}>
-              <Button className={classes.button}>
-                {groupName}
-              </Button>
+              <Button className={classes.button}>{groupName}</Button>
             </Link>
             <Button onClick={this.handleClickOpen}>Delete</Button>
             <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
