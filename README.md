@@ -18,6 +18,30 @@ From E. T. Seton's quote "there is no animal that cannot be tracked" Seton is su
 I picked up some repositories with easy labeled issue like `good first issue`, `Level: stater` in this demo
 ![result](https://github.com/e346m/Seton/blob/master/assets/demo.gif)
 
+## Based
+![result](https://github.com/e346m/Seton/blob/master/assets/deps.png)
+
+- Electron: generally handle main process
+- React: mainly handle rendering things(Redux isn't integrated in Apollo yet in this App)
+- Apollo: handle requests and responses for the Github API
+- Github GraphQL API v4
+
+```
+    -----------------------
+    |    Github API v4    |
+    -----------------------
+           GraphQL
+ _            ||
+| |           ||
+|G|       Apollo Client
+|U| <======> React
+|I|           ||
+|_|           ||
+    ----------------------
+    |     Electrorn      |
+    ----------------------
+```
+
 ## Feature
 
 - [x] Setting `access Token`.
@@ -26,9 +50,14 @@ I picked up some repositories with easy labeled issue like `good first issue`, `
 - [x] View Issues across repositories.
 - [x] View Issue and related comments.
 
-## TODO
+## Contribute
+```
+  # Install dependencies
+  yarn
 
-- [ ] debug some behavior for packaging
+  # start with hot reload
+  yarn start
+```
 
 ## License
 

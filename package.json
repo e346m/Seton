@@ -4,6 +4,10 @@
   "main": "main.js",
   "author": "Eiji Mishiro",
   "license": "MIT",
+  "repository": "https://github.com/e346m/Seton",
+  "bugs": {
+    "url": "https://github.com/e346m/Seton/issues"
+  },
   "scripts": {
     "electron": "electron ./public/js/main.js",
     "start": "webpack --watch --color --config webpack.dev.js",
