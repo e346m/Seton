@@ -37,7 +37,6 @@ class IssueList extends React.PureComponent {
     if (this.props.data.error) {
       return(<div>{ console.log(this.props.data.error) }</div>)
     }
-
     return (
       <div>
         <ListItem button onClick={this.handleClick}>

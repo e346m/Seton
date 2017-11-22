@@ -15,6 +15,8 @@ import GroupForm from './components/GroupForm.jsx'
 import Nav from './components/Nav.jsx'
 import Issue from './components/Issue.jsx'
 
+import IssueHeader from './layouts/IssueHeader.jsx'
+
 const httpLink = createHttpLink({ uri: 'https://api.github.com/graphql' })
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('token');
@@ -30,6 +32,13 @@ const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
 })
+const FadingRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    <IssueHeader>
+      <Component {...props}/>
+    </IssueHeader>
+  )}/>
+)
 
 ReactDOM.render(
   <ApolloProvider client={client}>
@@ -42,8 +51,8 @@ ReactDOM.render(
                 <Route exact path="/" component={Groups} />
                 <Route path="/login" component={Login} />
                 <Route path="/token" component={Token} />
-                <Route exact path="/issues" component={Issues} />
-                <Route path="/issues/:id" component={Issue} />
+                <FadingRoute exact path="/issues" component={Issues} />
+                <FadingRoute path="/issues/:id" component={Issue} />
                 <Route path="/group/new" component={GroupForm} />
                 <Route render={() => <p>Not Found</p>} />
               </Switch>
