@@ -21,7 +21,6 @@ class Issues extends React.PureComponent {
       this.handleRepo(repo.name, repo.label)
     )
     return (
-      <List className={this.props.classes.root} subheader={<ListSubheader>Issue List</ListSubheader>}>
         { _repo.map(r =>
           <IssueList owner={r[0]} repository={r[1]} labels={r[2]} />
         )}

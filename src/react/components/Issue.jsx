@@ -32,7 +32,6 @@ class Issue extends React.Component {
   render() {
     const { classes } = this.props
     const { loading, errors, node } = this.props.data
-    console.log(this.props.data)
     if (loading) {
       return(<div>{console.log("loading")}</div>)
     }

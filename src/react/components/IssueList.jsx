@@ -9,11 +9,18 @@ import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
 import Badge from 'material-ui/Badge';
 import ArchiveIcon from 'material-ui-icons/Archive'
+import Avatar from 'material-ui/Avatar';
 import { displayTime } from '../utility.js'
 
 const styles = theme => ({
+  container: {
+    display: 'flex',
+  },
   nested: {
     paddingLeft: theme.spacing.unit * 4,
+  },
+  avatar: {
+    margin: 10,
   },
 });
 
@@ -30,6 +37,7 @@ class IssueList extends React.PureComponent {
     if (this.props.data.error) {
       return(<div>{ console.log(this.props.data.error) }</div>)
     }
+
     return (
       <div>
         <ListItem button onClick={this.handleClick}>
@@ -40,13 +48,21 @@ class IssueList extends React.PureComponent {
         </ListItem>
         <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
           {this.props.data.repository.issues.edges.slice().reverse().map(issue =>
-            <Link to={`/issues/${issue.node.id}`} >
-              <ListItem button className={classes.nested}>
-                <ListItemText inset primary={issue.node.title}
-                  secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
+            <div className={classes.container}>
+              <Link to={`/issues/${issue.node.id}`} >
+                <ListItem button className={classes.nested}>
+                  <ListItemText inset primary={issue.node.title}
+                    secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
+                  />
+                </ListItem>
+              </Link>
+              {issue.node.assignees.edges.map(assignee =>
+                <Avatar alt={assignee.node.name}
+                  src={assignee.node.avatarUrl}
+                  className={classes.avatar}
                 />
-              </ListItem>
-            </Link>
+              )}
+            </div>
           )}
         </Collapse>
       </div>
@@ -57,13 +73,21 @@ class IssueList extends React.PureComponent {
 const IssueQuery = gql`
   query IssueQuery($owner: String!, $repository: String!, $labels: [String!]){
     repository(owner: $owner, name: $repository) {
-      issues(last: 10, states: OPEN, labels: $labels) {
+      issues(last: 50, states: OPEN, labels: $labels) {
         edges {
           node {
             id
             title
             number
             createdAt
+            assignees(first: 10) {
+              edges {
+                node {
+                  name
+                  avatarUrl(size: 44)
+                }
+              }
+            }
           }
         }
       }
