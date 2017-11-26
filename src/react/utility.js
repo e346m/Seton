@@ -17,3 +17,7 @@ export function displayTime(unixTime) {
     return d.getUTCSeconds() + '秒前'
   }
 }
+
+export function getRouterState(obj, key) {
+  return obj.props.location.state[key]
+}
