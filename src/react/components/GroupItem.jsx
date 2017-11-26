@@ -5,6 +5,7 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Typography from 'material-ui/Typography'
 import Card, { CardActions, CardContent } from 'material-ui/Card'
+import { returnIssueLink } from '../routerWrapper.js'
 
 import Grid from 'material-ui/Grid'
 import Collapse from 'material-ui/transitions/Collapse'
@@ -68,13 +69,12 @@ class GroupItem extends React.Component {
   }
   render() {
     const { repos, classes, groupName } = this.props
+    const issueLink = returnIssueLink(repos, groupName)
     return(
       <Grid item>
         <Card className={classes.card}>
           <CardContent className={classes.content}>
-            <Link to={{ pathname: "/issues", state: { repos: repos } }}>
-              <Button className={classes.button}>{groupName}</Button>
-            </Link>
+            {issueLink(<Button className={classes.button} >{groupName}</Button>)}
             <Button onClick={this.handleClickOpen}>Delete</Button>
             <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
               <DialogTitle>{"Do you really want to delete it?"}</DialogTitle>
