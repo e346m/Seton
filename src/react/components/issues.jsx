@@ -1,5 +1,6 @@
 import React from 'react'
 import IssueList from './IssueList.jsx'
+import { getRouterState } from '../utility.js'
 
 export default class Issues extends React.PureComponent {
   handleRepo = (name, label) => {
@@ -7,7 +8,7 @@ export default class Issues extends React.PureComponent {
     return val.concat(label)
   }
   render() {
-    const _repo = this.props.location.state.repos.map(repo =>
+    const _repo = getRouterState(this, 'repos').map(repo =>
       this.handleRepo(repo.name, repo.label)
     )
     return (
