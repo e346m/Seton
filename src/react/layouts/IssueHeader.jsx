@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import { Link } from 'react-router-dom'
 import List from 'material-ui/List'
@@ -12,12 +13,28 @@ const styles = theme => ({
   },
   container: {
     display: 'flex',
-  }
-});
+  },
+  child: {
+    margin: 5
+  },
+})
 
 class IssueHeader extends React.PureComponent {
   state = {
-    breadcrumbs: [getRouterState(this.props.children, 'link')(<div>Issue List</div>)]
+    breadcrumbs: [getRouterState(this.props.children, 'link')('Issue List')]
+  }
+  getChildContext() {
+    return { addBreadCrumb: this.addBreadCrumb }
+  }
+  addBreadCrumb = (breadcrumb) => {
+    this.setState({
+      breadcrumbs: this.state.breadcrumbs.concat(['>', breadcrumb])
+    })
+  }
+  initState = (id) => {
+    if (id !== 0) return false
+    const [head, ...tail] = this.state.breadcrumbs
+    this.setState({ breadcrumbs: [head] })
   }
   render() {
     const { classes } = this.props
@@ -26,8 +43,8 @@ class IssueHeader extends React.PureComponent {
         subheader={
           <ListSubheader>
             <div className={classes.container}>
-              {this.state.breadcrumbs.map(breadcrumb =>
-                breadcrumb
+              {this.state.breadcrumbs.map((breadcrumb, id) =>
+                <div className={classes.child} onClick={e => this.initState(id)}>{breadcrumb}</div>
               )}
             </div>
           </ListSubheader>}
@@ -38,4 +55,7 @@ class IssueHeader extends React.PureComponent {
   }
 }
 
+IssueHeader.childContextTypes = {
+  addBreadCrumb: PropTypes.func
+}
 export default withStyles(styles)(IssueHeader)

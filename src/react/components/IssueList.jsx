@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Link } from 'react-router-dom'
@@ -29,6 +30,9 @@ class IssueList extends React.PureComponent {
   handleClick = () => {
     this.setState({ open: !this.state.open });
   }
+  _addBreadCrumb = (title) => {
+    this.context.addBreadCrumb(title)
+  }
   render() {
     const { classes, owner, repository } = this.props
     if (this.props.data.loading) {
@@ -41,15 +45,19 @@ class IssueList extends React.PureComponent {
       <div>
         <ListItem button onClick={this.handleClick}>
           <ListItemText inset primary={owner + '/' + repository} />
-          <Badge className={classes.badge} badgeContent={this.props.data.repository.issues.edges.length} color="primary">
+          <Badge className={classes.badge}
+            badgeContent={this.props.data.repository.issues.edges.length}
+            color="primary"
+          >
             <ArchiveIcon />
           </Badge>
         </ListItem>
         <Collapse in={this.state.open} transitionDuration="auto" unmountOnExit>
           {this.props.data.repository.issues.edges.slice().reverse().map(issue =>
             <div className={classes.container}>
-              <Link to={`/issues/${issue.node.id}`} >
-                <ListItem button className={classes.nested}>
+              <Link to={`/issues/${issue.node.id}`}>
+                {/* onClick={this.func(args)} will run automatically ...*/}
+                <ListItem button className={classes.nested} onClick={e => this._addBreadCrumb(issue.node.title)}>
                   <ListItemText inset primary={issue.node.title}
                     secondary={`#${issue.node.number} ${displayTime(issue.node.createdAt)}`}
                   />
@@ -67,6 +75,10 @@ class IssueList extends React.PureComponent {
       </div>
     )
   }
+}
+
+IssueList.contextTypes = {
+  addBreadCrumb: PropTypes.func
 }
 
 const IssueQuery = gql`
